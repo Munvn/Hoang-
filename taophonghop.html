@@ -6,21 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Clone Zoom với Stringee</title>
 
-    <!-- import the webpage's stylesheet -->
+    <!-- Bulma CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
     />
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="style.css" />
 
-    <!-- import the webpage's javascript file -->
+    <!-- Vue, Axios, Stringee SDK -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.20.0/dist/axios.min.js"></script>
-    <script src="https://cdn.stringee.com/sdk/web/2.2.1/stringee-web-sdk.min.js"></script>
+    <script src="https://cdn.stringee.com/websdk/2.5.7/stringee-video.min.js"></script>
+
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      video {
+        width: 320px;
+        height: 180px;
+        margin: 10px;
+        border-radius: 8px;
+        border: 2px solid #ccc;
+      }
+      #videos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+      }
+    </style>
   </head>
+
   <body>
-    <div class="container has-text-centered" v-cloak id="app">
-      <div>
+    <div id="app" v-cloak class="container has-text-centered">
+      <div class="section">
         <button class="button is-primary" v-if="!room" @click="createRoom">
           Tạo phòng
         </button>
@@ -29,26 +49,25 @@
           Tham gia cuộc họp
         </button>
 
-        <button class="button is-info" v-if="room" @click="publish(true)">
-          Chia sẽ màn hình
+        <button class="button is-warning" v-if="room" @click="publish(true)">
+          Chia sẻ màn hình
         </button>
       </div>
 
-      <div v-if="roomId" class="info">
-        <p>Bạn đang ở trong room <strong>{{roomId}}</strong>.</p>
+      <div v-if="roomId" class="notification is-light">
+        <p>Bạn đang ở trong phòng <strong>{{ roomId }}</strong>.</p>
         <p>
-          Gửi link này cho bạn bè cùng join room nhé
-          <a v-bind:href="roomUrl" target="_blank">{{roomUrl}}</a> .
+          Gửi link này cho bạn bè cùng tham gia:
+          <a :href="roomUrl" target="_blank">{{ roomUrl }}</a>
         </p>
-        <p>Hoặc bạn cũng có thể copy <code>{{roomId}}</code> để share.</p>
+        <p>Hoặc copy mã phòng: <code>{{ roomId }}</code></p>
       </div>
-    </div>
 
-    <div class="container">
       <div id="videos"></div>
     </div>
 
-    <script src="/api.js"></script>
-    <script src="/script.js"></script>
+    <!-- Scripts -->
+    <script src="api.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
